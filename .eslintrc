@@ -1,0 +1,70 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    //eslint-plugin-react eslint-plugin-react-hookはeslint-config-nextに含まれてるので記述してないよ
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "root": true,
+  "ignorePatterns": [".eslintrc.json"],
+  "plugins": ["import", "react-hooks"], // "import/prefer-default-export" "import/no-default-export"を追加したい
+  "rules": {
+    "react-hooks/rules-of-hooks": "error", //recoil推奨の設定
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ],
+    "no-console": "off", //consoleの使用を許可
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error", //export defaultを禁止
+    "@typescript-eslint/no-use-before-define": "off",
+    "react/react-in-jsx-scope": "off", //v17以降はimport React from 'react'は省略できるので、eslint/recommendedで必須になっている設定をoffにする。
+    "react/jsx-props-no-spreading": "off", //スプレッド演算子を使ってpropsに値を渡せるようにする
+    "linebreak-style": 0,
+    //関数はアロー関数のみ
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    //モジュールのimport順をアルファベットの昇順にする。
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc"
+        }
+      }
+    ],
+    //emotion特有のcssプロパティを許可
+    //"react/no-unknown-property": ["error", { "ignore": ["css"] }],
+    "no-use-before-define": "off"
+  },
+  //Next.jsのpagesはデフォルトエクスポートする必要があるのでオーバーライド
+  "overrides": [
+    {
+      "files": ["*/pages/*"],
+      "rules": {
+        "import/no-default-export": "off",
+        "import/prefer-default-export": "error"
+      }
+    }
+  ]
+}
